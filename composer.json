@@ -1,0 +1,42 @@
+{
+	"name":        "sidroberts/phalcon-auth",
+	"description": "Auth component for Phalcon.",
+	"type":        "library",
+	"license":     "MIT",
+	
+	"authors": [
+		{
+			"name":     "Sid Roberts",
+			"email":    "Sid@SidRoberts.co.uk",
+			"homepage": "http://www.SidRoberts.co.uk",
+			"role":     "Developer"
+		}
+	],
+	
+	"support": {
+		"source": "https://www.GitHub.com/SidRoberts/Phalcon-Auth",
+		"issues": "https://www.GitHub.com/SidRoberts/Phalcon-Auth/issues",
+		"wiki":   "https://www.GitHub.com/SidRoberts/Phalcon-Auth/wiki"
+	},
+	
+	
+	
+	"require": {
+		"php": ">= 5.4",
+		
+		"ext-phalcon": ">= 2.0.0"
+	},
+	
+	"require-dev": {
+		"codeception/codeception": "~2.0",
+		"phpunit/php-code-coverage": "~2.0"
+	},
+	
+	
+	
+	"autoload": {
+		"psr-4": {
+			"Sid\\Phalcon\\Auth\\": "src/"
+		}
+	}
+}
