@@ -4,6 +4,9 @@ namespace Sid\Phalcon\Auth;
 
 class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface
 {
+	/**
+	 * @var \Phalcon\Events\ManagerInterface
+	 */
 	protected $_eventsManager;
 	
 	/**
@@ -25,14 +28,15 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 	 * @var string
 	 */
 	protected $userIdField;
-	
-	
-	
+
+
 	/**
 	 * @param string $modelName
 	 * @param string $usernameField
 	 * @param string $passwordField
 	 * @param string $userIdField
+	 *
+	 * @throws \Sid\Phalcon\Auth\Exception
 	 */
 	public function __construct($modelName, $usernameField, $passwordField, $userIdField)
 	{
@@ -48,14 +52,20 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 		$this->passwordField = $passwordField;
 		$this->userIdField   = $userIdField;
 	}
-	
-	
-	
+
+
+
+	/**
+	 * @return \Phalcon\Events\ManagerInterface
+	 */
 	public function getEventsManager()
 	{
 		return $this->_eventsManager;
 	}
-	
+
+	/**
+	 * @param \Phalcon\Events\ManagerInterface $eventsManager
+	 */
 	public function setEventsManager(\Phalcon\Events\ManagerInterface $eventsManager)
 	{
 		$this->_eventsManager = $eventsManager;
