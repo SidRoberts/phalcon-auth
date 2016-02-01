@@ -11,7 +11,7 @@ Passwords are created using [`Phalcon\\Security::hash()`](https://github.com/pha
 
 Install using Composer:
 
-```
+```json
 {
 	"require": {
 		"sidroberts/phalcon-auth": "dev-master"
