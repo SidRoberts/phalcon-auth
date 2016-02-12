@@ -255,13 +255,12 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 	
 	
 	/**
-	 * @param string $username
-	 * @param string $currentPassword
-	 * @param string $newPassword
+	 * @param \Phalcon\Mvc\ModelInterface $user
+	 * @param string                      $newPassword
 	 * 
 	 * @return boolean
 	 */
-	public function changePassword($username, $currentPassword, $newPassword)
+	public function changePassword(\Phalcon\Mvc\ModelInterface $user, $newPassword)
 	{
 		$eventsManager = $this->getEventsManager();
 		
@@ -272,12 +271,6 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 		}
 		
 		
-		
-		$user = $this->getUserFromCredentials($username, $currentPassword);
-		
-		if (!$user) {
-			return false;
-		}
 		
 		$user->writeAttribute(
 			$this->passwordField,
