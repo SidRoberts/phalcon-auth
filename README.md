@@ -28,7 +28,9 @@ Install using Composer:
 ```php
 namespace Models;
 
-class Users extends \Phalcon\Mvc\Model
+use Phalcon\Mvc\Model;
+
+class Users extends Model
 {
     public $userID;
     public $username;
@@ -40,11 +42,14 @@ class Users extends \Phalcon\Mvc\Model
 ### DI ###
 
 ```php
+use Models\Users;
+use Sid\Phalcon\Auth\Manager as AuthManager;
+
 $di->set(
     "auth",
     function () {
-        $auth = new \Sid\Phalcon\Auth\Manager(
-            \Models\Users::class,
+        $auth = new AuthManager(
+            Users::class,
             "username",
             "password",
             "userID"
@@ -58,7 +63,9 @@ $di->set(
 ### Your Code ###
 
 ```php
-class UserController extends \Phalcon\Mvc\Controller
+use Phalcon\Mvc\Controller;
+
+class UserController extends Controller
 {
     public function registerAction()
     {

@@ -2,10 +2,16 @@
 
 namespace Sid\Phalcon\Auth;
 
-class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAwareInterface
+use Phalcon\DiInterface;
+use Phalcon\Di\Injectable;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\ModelInterface;
+
+class Manager extends Injectable implements EventsAwareInterface
 {
     /**
-     * @var \Phalcon\Events\ManagerInterface
+     * @var EventsManagerInterface
      */
     protected $_eventsManager;
 
@@ -35,13 +41,13 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
      * @param string $passwordField
      * @param string $userIdField
      *
-     * @throws \Sid\Phalcon\Auth\Exception
+     * @throws Exception
      */
     public function __construct($modelName, $usernameField, $passwordField, $userIdField)
     {
         $di = $this->getDI();
-        if (!($di instanceof \Phalcon\DiInterface)) {
-            throw new \Sid\Phalcon\Auth\Exception("A dependency injection object is required to access internal services");
+        if (!($di instanceof DiInterface)) {
+            throw new Exception("A dependency injection object is required to access internal services");
         }
 
         $this->modelName     = $modelName;
@@ -51,7 +57,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     }
 
     /**
-     * @return \Phalcon\Events\ManagerInterface
+     * @return EventsManagerInterface
      */
     public function getEventsManager()
     {
@@ -59,9 +65,9 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     }
 
     /**
-     * @param \Phalcon\Events\ManagerInterface $eventsManager
+     * @param EventsManagerInterface $eventsManager
      */
-    public function setEventsManager(\Phalcon\Events\ManagerInterface $eventsManager)
+    public function setEventsManager(EventsManagerInterface $eventsManager)
     {
         $this->_eventsManager = $eventsManager;
     }
@@ -76,7 +82,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     {
         $eventsManager = $this->getEventsManager();
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             if ($eventsManager->fire("auth:beforeLogIn", $this) === false) {
                 return false;
             }
@@ -99,7 +105,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
             $userID
         );
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             $eventsManager->fire("auth:afterLogIn", $this);
         }
 
@@ -113,7 +119,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     {
         $eventsManager = $this->getEventsManager();
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             if ($eventsManager->fire("auth:beforeLogOut", $this) === false) {
                 return false;
             }
@@ -125,7 +131,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 
         $this->getDI()->getShared("session")->remove("auth_userID");
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             $eventsManager->fire("auth:afterLogOut", $this);
         }
 
@@ -133,7 +139,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     }
 
     /**
-     * @return \Phalcon\Mvc\ModelInterface|boolean
+     * @return ModelInterface|boolean
      */
     public function getUser()
     {
@@ -170,7 +176,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
      * @param string $username
      * @param string $password
      *
-     * @return \Phalcon\Mvc\ModelInterface|boolean
+     * @return ModelInterface|boolean
      */
     public function getUserFromCredentials($username, $password)
     {
@@ -198,7 +204,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     /**
      * @param int $userID
      *
-     * @return \Phalcon\Mvc\ModelInterface
+     * @return ModelInterface
      */
     public function getUserFromUserId($userID)
     {
@@ -216,26 +222,26 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
     }
 
     /**
-     * @param \Phalcon\Mvc\ModelInterface $user
+     * @param ModelInterface $user
      *
      * @return int
      */
-    public function getUserIdFromUser(\Phalcon\Mvc\ModelInterface $user)
+    public function getUserIdFromUser(ModelInterface $user)
     {
         return $user->readAttribute($this->userIdField);
     }
 
     /**
-     * @param \Phalcon\Mvc\ModelInterface $user
+     * @param ModelInterface $user
      * @param string                      $newPassword
      *
      * @return boolean
      */
-    public function changePassword(\Phalcon\Mvc\ModelInterface $user, $newPassword)
+    public function changePassword(ModelInterface $user, $newPassword)
     {
         $eventsManager = $this->getEventsManager();
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             if ($eventsManager->fire("auth:beforeChangePassword", $this) === false) {
                 return false;
             }
@@ -248,7 +254,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
 
         $success = $user->update();
 
-        if ($eventsManager instanceof \Phalcon\Events\ManagerInterface) {
+        if ($eventsManager instanceof EventsManagerInterface) {
             $eventsManager->fire("auth:afterChangePassword", $this);
         }
 
@@ -259,7 +265,7 @@ class Manager extends \Phalcon\Di\Injectable implements \Phalcon\Events\EventsAw
      * @param string $username
      * @param string $password
      *
-     * @return \Phalcon\Mvc\ModelInterface
+     * @return ModelInterface
      */
     public function createUser($username, $password)
     {
