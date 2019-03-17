@@ -13,9 +13,9 @@ Install using Composer:
 
 ```json
 {
-	"require": {
-		"sidroberts/phalcon-auth": "dev-master"
-	}
+    "require": {
+        "sidroberts/phalcon-auth": "dev-master"
+    }
 }
 ```
 
@@ -30,10 +30,10 @@ namespace Models;
 
 class Users extends \Phalcon\Mvc\Model
 {
-	public $userID;
-	public $username;
-	public $password;
-	public $emailAddress;
+    public $userID;
+    public $username;
+    public $password;
+    public $emailAddress;
 }
 ```
 
@@ -41,17 +41,17 @@ class Users extends \Phalcon\Mvc\Model
 
 ```php
 $di->set(
-	"auth",
-	function () {
-		$auth = new \Sid\Phalcon\Auth\Manager(
-			\Models\Users::class,
-			"username",
-			"password",
-			"userID"
-		);
-		
-		return $auth;
-	}
+    "auth",
+    function () {
+        $auth = new \Sid\Phalcon\Auth\Manager(
+            \Models\Users::class,
+            "username",
+            "password",
+            "userID"
+        );
+
+        return $auth;
+    }
 );
 ```
 
@@ -60,53 +60,53 @@ $di->set(
 ```php
 class UserController extends \Phalcon\Mvc\Controller
 {
-	public function registerAction()
-	{
-		$username     = $this->request->getPost("username");
-		$password     = $this->request->getPost("password");
-		$emailAddress = $this->request->getPost("emailAddress");
-		
-		$user = $this->auth->createUser($username, $password);
-		
-		// Assign other fields here. For example:
-		$user->emailAddress = $emailAddress;
-		
-		$success = $user->create();
-		
-		if ($success) {
-			echo "User has been created.";
-			
-			// You may want to log in automatically.
-			$this->auth->logIn($username, $password);
-		} else {
-			echo "User has not been created.";
-		}
-	}
-	
-	public function loginAction()
-	{
-		$username = $this->request->getPost("username");
-		$password = $this->request->getPost("password");
-		
-		$success = $this->auth->logIn($username, $password);
-		
-		if ($success) {
-			echo "Login successful.";
-		} else {
-			echo "Username or password incorrect.";
-		}
-	}
-	
-	public function logoutAction()
-	{
-		$success = $this->auth->logOut();
-		
-		if ($success) {
-			echo "Logout successful.";
-		} else {
-			echo "You're still logged in.";
-		}
-	}
+    public function registerAction()
+    {
+        $username     = $this->request->getPost("username");
+        $password     = $this->request->getPost("password");
+        $emailAddress = $this->request->getPost("emailAddress");
+
+        $user = $this->auth->createUser($username, $password);
+
+        // Assign other fields here. For example:
+        $user->emailAddress = $emailAddress;
+
+        $success = $user->create();
+
+        if ($success) {
+            echo "User has been created.";
+
+            // You may want to log in automatically.
+            $this->auth->logIn($username, $password);
+        } else {
+            echo "User has not been created.";
+        }
+    }
+
+    public function loginAction()
+    {
+        $username = $this->request->getPost("username");
+        $password = $this->request->getPost("password");
+
+        $success = $this->auth->logIn($username, $password);
+
+        if ($success) {
+            echo "Login successful.";
+        } else {
+            echo "Username or password incorrect.";
+        }
+    }
+
+    public function logoutAction()
+    {
+        $success = $this->auth->logOut();
+
+        if ($success) {
+            echo "Logout successful.";
+        } else {
+            echo "You're still logged in.";
+        }
+    }
 }
 ```
 
