@@ -44,10 +44,10 @@ $di->set(
 	"auth",
 	function () {
 		$auth = new \Sid\Phalcon\Auth\Manager(
-			'\\Models\\Users',
-			'username',
-			'password',
-			'userID'
+			\Models\Users::class,
+			"username",
+			"password",
+			"userID"
 		);
 		
 		return $auth;
@@ -62,9 +62,9 @@ class UserController extends \Phalcon\Mvc\Controller
 {
 	public function registerAction()
 	{
-		$username     = $this->request->getPost('username');
-		$password     = $this->request->getPost('password');
-		$emailAddress = $this->request->getPost('emailAddress');
+		$username     = $this->request->getPost("username");
+		$password     = $this->request->getPost("password");
+		$emailAddress = $this->request->getPost("emailAddress");
 		
 		$user = $this->auth->createUser($username, $password);
 		
@@ -85,8 +85,8 @@ class UserController extends \Phalcon\Mvc\Controller
 	
 	public function loginAction()
 	{
-		$username = $this->request->getPost('username');
-		$password = $this->request->getPost('password');
+		$username = $this->request->getPost("username");
+		$password = $this->request->getPost("password");
 		
 		$success = $this->auth->logIn($username, $password);
 		
