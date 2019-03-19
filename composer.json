@@ -14,9 +14,9 @@
 	],
 	
 	"support": {
-		"source": "https://www.GitHub.com/SidRoberts/Phalcon-Auth",
-		"issues": "https://www.GitHub.com/SidRoberts/Phalcon-Auth/issues",
-		"wiki":   "https://www.GitHub.com/SidRoberts/Phalcon-Auth/wiki"
+		"source": "https://github.com/SidRoberts/phalcon-auth",
+		"issues": "https://github.com/SidRoberts/phalcon-auth/issues",
+		"wiki":   "https://github.com/SidRoberts/phalcon-auth/wiki"
 	},
 	
 	
