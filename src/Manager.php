@@ -47,7 +47,9 @@ class Manager extends Injectable implements EventsAwareInterface
     {
         $di = $this->getDI();
         if (!($di instanceof DiInterface)) {
-            throw new Exception("A dependency injection object is required to access internal services");
+            throw new Exception(
+                "A dependency injection object is required to access internal services"
+            );
         }
 
         $this->modelName     = $modelName;
@@ -100,7 +102,11 @@ class Manager extends Injectable implements EventsAwareInterface
 
         $userID = $this->getUserIdFromUser($user);
 
-        $this->getDI()->getShared("session")->set(
+        $di = $this->getDI();
+
+        $session = $di->getShared("session");
+
+        $session->set(
             "auth_userID",
             $userID
         );
@@ -129,7 +135,11 @@ class Manager extends Injectable implements EventsAwareInterface
             return true;
         }
 
-        $this->getDI()->getShared("session")->remove("auth_userID");
+        $di = $this->getDI();
+
+        $session = $di->getShared("session");
+
+        $session->remove("auth_userID");
 
         if ($eventsManager instanceof EventsManagerInterface) {
             $eventsManager->fire("auth:afterLogOut", $this);
@@ -147,7 +157,11 @@ class Manager extends Injectable implements EventsAwareInterface
             return false;
         }
 
-        $userID = $this->getDI()->getShared("session")->get("auth_userID");
+        $di = $this->getDI();
+
+        $session = $di->getShared("session");
+
+        $userID = $session->get("auth_userID");
 
         return $this->getUserFromUserId($userID);
     }
@@ -161,7 +175,11 @@ class Manager extends Injectable implements EventsAwareInterface
             return false;
         }
 
-        return $this->getDI()->getShared("session")->get("auth_userID");
+        $di = $this->getDI();
+
+        $session = $di->getShared("session");
+
+        return $session->get("auth_userID");
     }
 
     /**
@@ -169,7 +187,11 @@ class Manager extends Injectable implements EventsAwareInterface
      */
     public function isLoggedIn()
     {
-        return $this->getDI()->getShared("session")->has("auth_userID");
+        $di = $this->getDI();
+
+        $session = $di->getShared("session");
+
+        return $session->has("auth_userID");
     }
 
     /**
@@ -194,7 +216,11 @@ class Manager extends Injectable implements EventsAwareInterface
             return false;
         }
 
-        if (!$this->getDI()->getShared("security")->checkHash($password, $user->readAttribute($this->passwordField))) {
+        $di = $this->getDI();
+
+        $security = $di->getShared("security");
+
+        if (!$security->checkHash($password, $user->readAttribute($this->passwordField))) {
             return false;
         }
 
@@ -247,9 +273,13 @@ class Manager extends Injectable implements EventsAwareInterface
             }
         }
 
+        $di = $this->getDI();
+
+        $security = $di->getShared("security");
+
         $user->writeAttribute(
             $this->passwordField,
-            $this->getDI()->getShared("security")->hash($newPassword)
+            $security->hash($newPassword)
         );
 
         $success = $user->update();
@@ -271,11 +301,15 @@ class Manager extends Injectable implements EventsAwareInterface
     {
         $user = new $this->modelName();
 
+        $di = $this->getDI();
+
+        $security = $di->getShared("security");
+
         $user->writeAttribute($this->usernameField, $username);
 
         $user->writeAttribute(
             $this->passwordField,
-            $this->getDI()->getShared("security")->hash($password)
+            $security->hash($password)
         );
 
         return $user;
