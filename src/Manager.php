@@ -36,14 +36,9 @@ class Manager extends Injectable implements EventsAwareInterface
     protected $userIdField;
 
     /**
-     * @param string $modelName
-     * @param string $usernameField
-     * @param string $passwordField
-     * @param string $userIdField
-     *
      * @throws Exception
      */
-    public function __construct($modelName, $usernameField, $passwordField, $userIdField)
+    public function __construct(string $modelName, string $usernameField, string $passwordField, string $userIdField)
     {
         $di = $this->getDI();
         if (!($di instanceof DiInterface)) {
@@ -66,21 +61,12 @@ class Manager extends Injectable implements EventsAwareInterface
         return $this->_eventsManager;
     }
 
-    /**
-     * @param EventsManagerInterface $eventsManager
-     */
     public function setEventsManager(EventsManagerInterface $eventsManager)
     {
         $this->_eventsManager = $eventsManager;
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return boolean
-     */
-    public function logIn($username, $password)
+    public function logIn(string $username, string $password) : bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -118,10 +104,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return true;
     }
 
-    /**
-     * @return boolean
-     */
-    public function logOut()
+    public function logOut() : bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -182,10 +165,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $session->get("auth_userID");
     }
 
-    /**
-     * @return boolean
-     */
-    public function isLoggedIn()
+    public function isLoggedIn() : bool
     {
         $di = $this->getDI();
 
@@ -195,12 +175,9 @@ class Manager extends Injectable implements EventsAwareInterface
     }
 
     /**
-     * @param string $username
-     * @param string $password
-     *
      * @return ModelInterface|boolean
      */
-    public function getUserFromCredentials($username, $password)
+    public function getUserFromCredentials(string $username, string $password)
     {
         $user = call_user_func(
             [$this->modelName, "findFirst"],
@@ -227,12 +204,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $user;
     }
 
-    /**
-     * @param int $userID
-     *
-     * @return ModelInterface
-     */
-    public function getUserFromUserId($userID)
+    public function getUserFromUserId(int $userID) : ModelInterface
     {
         $user = call_user_func(
             [$this->modelName, "findFirst"],
@@ -247,23 +219,12 @@ class Manager extends Injectable implements EventsAwareInterface
         return $user;
     }
 
-    /**
-     * @param ModelInterface $user
-     *
-     * @return int
-     */
-    public function getUserIdFromUser(ModelInterface $user)
+    public function getUserIdFromUser(ModelInterface $user) : int
     {
         return $user->readAttribute($this->userIdField);
     }
 
-    /**
-     * @param ModelInterface $user
-     * @param string                      $newPassword
-     *
-     * @return boolean
-     */
-    public function changePassword(ModelInterface $user, $newPassword)
+    public function changePassword(ModelInterface $user, string $newPassword) : bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -291,13 +252,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $success;
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return ModelInterface
-     */
-    public function createUser($username, $password)
+    public function createUser(string $username, string $password) : ModelInterface
     {
         $user = new $this->modelName();
 
