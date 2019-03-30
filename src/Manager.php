@@ -13,7 +13,7 @@ class Manager extends Injectable implements EventsAwareInterface
     /**
      * @var EventsManagerInterface
      */
-    protected $_eventsManager;
+    protected $eventsManager;
 
     /**
      * @var string
@@ -65,12 +65,12 @@ class Manager extends Injectable implements EventsAwareInterface
      */
     public function getEventsManager()
     {
-        return $this->_eventsManager;
+        return $this->eventsManager;
     }
 
     public function setEventsManager(EventsManagerInterface $eventsManager)
     {
-        $this->_eventsManager = $eventsManager;
+        $this->eventsManager = $eventsManager;
     }
 
 
