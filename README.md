@@ -1,5 +1,4 @@
-Sid\Phalcon\Auth
-================
+# `Sid\Phalcon\Auth`
 
 Auth component for Phalcon.
 
@@ -18,7 +17,7 @@ Passwords are created using [`Phalcon\Security::hash()`](https://github.com/phal
 
 
 
-## Installing ##
+## Installing
 
 Install using Composer:
 
