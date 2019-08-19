@@ -204,11 +204,13 @@ class Manager extends Injectable implements EventsAwareInterface
             return false;
         }
 
+        $hashedPassword = $user->readAttribute($this->passwordField);
+
         $di = $this->getDI();
 
         $security = $di->getShared("security");
 
-        if (!$security->checkHash($password, $user->readAttribute($this->passwordField))) {
+        if (!$security->checkHash($password, $hashedPassword)) {
             return false;
         }
 
