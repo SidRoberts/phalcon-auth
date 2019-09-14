@@ -195,8 +195,8 @@ class Manager extends Injectable implements EventsAwareInterface
             [
                 $this->usernameField . " = :username:",
                 "bind" => [
-                    "username" => $username
-                ]
+                    "username" => $username,
+                ],
             ]
         );
 
@@ -224,8 +224,8 @@ class Manager extends Injectable implements EventsAwareInterface
             [
                 $this->userIdField . " = :userID:",
                 "bind" => [
-                    "userID" => $userID
-                ]
+                    "userID" => $userID,
+                ],
             ]
         );
 
