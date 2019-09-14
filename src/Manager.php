@@ -143,7 +143,7 @@ class Manager extends Injectable implements EventsAwareInterface
 
 
     /**
-     * @return ModelInterface|boolean
+     * @return ModelInterface|bool
      */
     public function getUser()
     {
@@ -161,7 +161,7 @@ class Manager extends Injectable implements EventsAwareInterface
     }
 
     /**
-     * @return int|boolean
+     * @return int|bool
      */
     public function getUserID()
     {
@@ -186,7 +186,7 @@ class Manager extends Injectable implements EventsAwareInterface
     }
 
     /**
-     * @return ModelInterface|boolean
+     * @return ModelInterface|bool
      */
     public function getUserFromCredentials(string $username, string $password)
     {
