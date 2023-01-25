@@ -2,7 +2,7 @@
 
 namespace Sid\Phalcon\Auth;
 
-class Exception extends \Phalcon\Exception
+class Exception extends \Exception
 {
 
 }
