@@ -10,30 +10,15 @@ use Phalcon\Mvc\ModelInterface;
 
 class Manager extends Injectable implements EventsAwareInterface
 {
-    /**
-     * @var EventsManagerInterface
-     */
-    protected $eventsManager;
+    protected ?EventsManagerInterface $eventsManager;
 
-    /**
-     * @var string
-     */
-    protected $modelName;
+    protected string $modelName;
 
-    /**
-     * @var string
-     */
-    protected $usernameField;
+    protected string $usernameField;
 
-    /**
-     * @var string
-     */
-    protected $passwordField;
+    protected string $passwordField;
 
-    /**
-     * @var string
-     */
-    protected $userIdField;
+    protected string $userIdField;
 
 
 
@@ -60,10 +45,7 @@ class Manager extends Injectable implements EventsAwareInterface
 
 
 
-    /**
-     * @return EventsManagerInterface
-     */
-    public function getEventsManager()
+    public function getEventsManager(): ?EventsManagerInterface
     {
         return $this->eventsManager;
     }
@@ -75,7 +57,7 @@ class Manager extends Injectable implements EventsAwareInterface
 
 
 
-    public function logIn(string $username, string $password) : bool
+    public function logIn(string $username, string $password): bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -113,7 +95,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return true;
     }
 
-    public function logOut() : bool
+    public function logOut(): bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -142,10 +124,7 @@ class Manager extends Injectable implements EventsAwareInterface
 
 
 
-    /**
-     * @return ModelInterface|bool
-     */
-    public function getUser()
+    public function getUser(): ModelInterface|bool
     {
         if (!$this->isLoggedIn()) {
             return false;
@@ -160,10 +139,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $this->getUserFromUserId($userID);
     }
 
-    /**
-     * @return int|bool
-     */
-    public function getUserID()
+    public function getUserID(): int|false
     {
         if (!$this->isLoggedIn()) {
             return false;
@@ -176,7 +152,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $session->get("auth_userID");
     }
 
-    public function isLoggedIn() : bool
+    public function isLoggedIn(): bool
     {
         $di = $this->getDI();
 
@@ -185,10 +161,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $session->has("auth_userID");
     }
 
-    /**
-     * @return ModelInterface|bool
-     */
-    public function getUserFromCredentials(string $username, string $password)
+    public function getUserFromCredentials(string $username, string $password): ModelInterface|false
     {
         $user = call_user_func(
             [$this->modelName, "findFirst"],
@@ -217,7 +190,7 @@ class Manager extends Injectable implements EventsAwareInterface
         return $user;
     }
 
-    public function getUserFromUserId(int $userID) : ModelInterface
+    public function getUserFromUserId(int $userID): ModelInterface
     {
         $user = call_user_func(
             [$this->modelName, "findFirst"],
@@ -232,14 +205,14 @@ class Manager extends Injectable implements EventsAwareInterface
         return $user;
     }
 
-    public function getUserIdFromUser(ModelInterface $user) : int
+    public function getUserIdFromUser(ModelInterface $user): int
     {
         return $user->readAttribute($this->userIdField);
     }
 
 
 
-    public function changePassword(ModelInterface $user, string $newPassword) : bool
+    public function changePassword(ModelInterface $user, string $newPassword): bool
     {
         $eventsManager = $this->getEventsManager();
 
@@ -269,7 +242,7 @@ class Manager extends Injectable implements EventsAwareInterface
 
 
 
-    public function createUser(string $username, string $password) : ModelInterface
+    public function createUser(string $username, string $password): ModelInterface
     {
         $user = new $this->modelName();
 
