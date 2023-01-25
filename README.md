@@ -6,7 +6,7 @@ Passwords are created using [`Phalcon\Encryption\Security::hash()`](https://gith
 
 
 
-[![Build Status](https://img.shields.io/travis/SidRoberts/phalcon-auth/master.svg?style=for-the-badge)](https://travis-ci.org/SidRoberts/phalcon-auth)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/SidRoberts/phalcon-auth/tests.yml?style=for-the-badge)](https://github.com/SidRoberts/phalcon-auth/actions)
 [![GitHub release](https://img.shields.io/github/release/SidRoberts/phalcon-auth.svg?style=for-the-badge)]()
 
 [![GitHub issues](https://img.shields.io/github/issues-raw/SidRoberts/phalcon-auth.svg?style=for-the-badge)](https://github.com/SidRoberts/phalcon-auth/issues)
