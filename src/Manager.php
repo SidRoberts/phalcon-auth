@@ -126,15 +126,11 @@ class Manager extends Injectable implements EventsAwareInterface
 
     public function getUser(): ModelInterface|bool
     {
-        if (!$this->isLoggedIn()) {
+        $userID = $this->getUserID();
+
+        if ($userID === false) {
             return false;
         }
-
-        $di = $this->getDI();
-
-        $session = $di->getShared("session");
-
-        $userID = $session->get("auth_userID");
 
         return $this->getUserFromUserId($userID);
     }
