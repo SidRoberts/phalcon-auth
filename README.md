@@ -29,7 +29,7 @@ Install using Composer:
 ```json
 {
     "require": {
-        "sidroberts/phalcon-auth": "dev-master"
+        "sidroberts/phalcon-auth": "dev-main"
     }
 }
 ```
