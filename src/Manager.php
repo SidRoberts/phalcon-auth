@@ -12,21 +12,17 @@ class Manager extends Injectable implements EventsAwareInterface
 {
     protected ?EventsManagerInterface $eventsManager;
 
-    protected string $modelName;
-
-    protected string $usernameField;
-
-    protected string $passwordField;
-
-    protected string $userIdField;
-
 
 
     /**
      * @throws Exception
      */
-    public function __construct(string $modelName, string $usernameField, string $passwordField, string $userIdField)
-    {
+    public function __construct(
+        protected string $modelName,
+        protected string $usernameField,
+        protected string $passwordField,
+        protected string $userIdField
+    ) {
         $di = $this->getDI();
 
         if (!($di instanceof DiInterface)) {
@@ -34,13 +30,6 @@ class Manager extends Injectable implements EventsAwareInterface
                 "A dependency injection object is required to access internal services"
             );
         }
-
-
-
-        $this->modelName     = $modelName;
-        $this->usernameField = $usernameField;
-        $this->passwordField = $passwordField;
-        $this->userIdField   = $userIdField;
     }
 
 
